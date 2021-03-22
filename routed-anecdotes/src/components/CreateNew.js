@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useField } from '../hooks/index';
+import { useResettableField } from '../hooks/index';
 
 const CreateNew = (props) => {
-  const contentField = useField('text', 'content');
-  const authorField = useField('text', 'author');
-  const infoField = useField('text', 'info');
+  const contentField = useResettableField('text', 'content');
+  const authorField = useResettableField('text', 'author');
+  const infoField = useResettableField('text', 'info');
 
   const history = useHistory();
 
@@ -20,23 +20,30 @@ const CreateNew = (props) => {
     history.push('/');
   }
 
+  const resetFields = () => {
+    contentField.reset();
+    authorField.reset();
+    infoField.reset();
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input {...contentField} />
+          <input {...contentField.field} />
         </div>
         <div>
           author
-          <input {...authorField} />
+          <input {...authorField.field} />
         </div>
         <div>
           url for more info
-          <input {...infoField} />
+          <input {...infoField.field} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
+        <button type="reset" onClick={ resetFields }>reset</button>
       </form>
     </div>
   )
